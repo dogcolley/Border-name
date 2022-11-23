@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>누군지맞춰봐용</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+      <button
+        type="button"
+        v-if="intro"
+        @click="intro=false"
+        id="intro"
+      >
+       이름 맞추기 시작할까요?
+      </button>
+      
+      <button
+        type="button"
+        id="btn02"
+        @click="next()"
+      >
+        {{nowPage}}
+        다음문제
+      </button>
+
+      <button
+        type="button"
+        @click="()=>{show_video=true;show_photo=false}"
+        v-if="show_photo"
+        id="btn01"
+      >
+        <img :src="`./pt/${name[nowPage]}.png`" id="img" >
+      </button>
+      <video id="video" controls autoplay v-if="show_video">
+        <source :src="`./vd/${name[nowPage]}.mp4`" type="video/mp4">
+      </video>
+    </div>
+
+    <script>
+        const { createApp } = Vue
+        createApp({
+          mounted() {
+            this.shuffleArray(this.name)
+          },
+          methods: {
+            shuffleArray (array){
+              for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+              }
+              this.name = array
+            },
+            next(){
+              if(this.name.length < this.nowPage){
+                alert('리셋합니다!')
+                this.nowPage = 0
+                this.shuffleArray(this.name)
+                this.intro=true;
+              }else{
+                this.nowPage++;
+              }
+
+              this.show_video=false;
+              this.show_photo=true;
+            }
+          },
+          data() {
+            return {
+                nowPage : 0,
+                intro:true,
+                show_video:false,
+                show_photo:true,
+                name : [
+                    '강혜수',
+                    '김선우',
+                    '김연정',
+                    '김진현',
+                    '김형철',
+                    '박민혁',
+                    '백미진',
+                    '석유진',
+                    '설경호',
+                    '성태오',
+                    '손영기',
+                    '송석현',
+                    '송철현',
+                    '신광진',
+                    '오다연',
+                    '원상',
+                    '윤종연',
+                    '이수빈',
+                    '이동현',
+                    '이은호',
+                    '이은석',
+                    '이준희',
+                    '이지희',
+                    '이진환',
+                    '이채은',
+                    '장석환',
+                    '장윤정',
+                    '정다훈',
+                    '정승연',
+                    '정지원',
+                    '정진교',
+                    '조인성',
+                    '피형우'
+                ]
+            }
+          }
+        }).mount('#app')
+      </script>
+
+      <style>
+        body,html{
+          padding:0;
+          margin:0;
+          width:100%;
+          height:100%;
+        }
+        
+        #app{
+          width:100%;
+          height:100%
+        }
+
+        #intro{
+          width:100%;
+          height:100%;
+          position: absolute;
+          background: #000;
+          color:#fff;
+          font-size:30px;
+          font-weight: 700;
+          z-index:99
+        }
+
+        #img{
+          width:100%;
+        }
+
+        #video {
+          width:100%;
+        }
+
+        #btn02{
+          position: absolute;
+          top:0;
+          left:0;
+          width:100%;
+          height:60px;
+          background: rgb(16, 112, 255);
+          border-radius: 5px;
+          color:#fff;
+          font-size:25px;
+          font-weight: 700;
+          z-index:80
+        }
+
+        #btn01{
+          background: #000;
+          width:100%;
+          z-index:90;
+          height: 100%;
+        }
+
+      
+      </style>
+</body>
+</html>
